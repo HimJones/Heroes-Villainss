@@ -1,5 +1,6 @@
 from django.db import models
 from super_types.models import SuperType
+
 # Create your models here.
 
 class Super(models.Model):
