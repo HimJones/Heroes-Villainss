@@ -12,6 +12,7 @@ def supers_list(request):
     if request.method == 'GET':
         
         super_name = request.query_params.get(super)
+
         print(super_name)
         
         supers = Super.objects.all()
@@ -26,9 +27,14 @@ def supers_list(request):
             serializer.save()
             return Response(serializer.data)
     
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 def super_detail(request, pk):
     super = get_object_or_404(Super, pk=pk)
     if request.method == 'GET':
         serializer = SuperSerializer(super)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = SuperSerializer(super, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response(serializer.data)
