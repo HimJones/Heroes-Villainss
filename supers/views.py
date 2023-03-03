@@ -11,16 +11,19 @@ from .models import Super
 def supers_list(request):
     if request.method == 'GET':
         
-        super_name = request.query_params.get(super)
+        super_type = request.query_params.get('type')
 
-        print(super_name)
+        print(super_type)
         
         supers = Super.objects.all()
 
-        if super_name:
-            supers = supers.filter(super__name=super_name)
+        if super_type:
+            supers = supers.filter(super_type__type=super_type)
+
+
         serializer = SuperSerializer(supers, many= True)
         return Response(serializer.data)
+    
     elif request.method == 'POST':
         serializer = SuperSerializer(data=request.data)
         if serializer.is_valid() == True:
