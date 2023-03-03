@@ -22,9 +22,9 @@ def supers_list(request):
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = SuperSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if serializer.is_valid() == True:
+            serializer.save()
+            return Response(serializer.data)
     
 @api_view(['GET'])
 def super_detail(request, pk):
